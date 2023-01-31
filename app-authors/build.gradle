@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'io.quarkus' version '2.10.2.Final'
+    id "org.flywaydb.flyway" version "9.8.1"
+    id "io.freefair.lombok" version "6.5.0.2"
+}
+
+group 'com.programacion'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext{
+    quarKusVersion='2.10.2.Final'
+}
+
+dependencies {
+
+    implementation enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarKusVersion}")
+    implementation 'io.quarkus:quarkus-resteasy'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-resteasy-jackson'
+    implementation 'io.quarkus:quarkus-jsonb'
+
+    //Panache-Quarkus Data Repository
+    annotationProcessor("io.quarkus:quarkus-panache-common")
+    implementation("io.quarkus:quarkus-hibernate-orm-panache")
+    // Postgres
+    implementation("io.quarkus:quarkus-jdbc-postgresql")
+
+    //Flyway
+    implementation("io.quarkus:quarkus-flyway")
+}
+
+test {
+    useJUnitPlatform()
+}
+sourceSets{
+    main{
+        output.resourcesDir = file("${buildDir}/classes/java/main")
+    }
+}
+
+flyway {
+    url = 'jdbc:postgresql://heffalump.db.elephantsql.com/lilqywqz'
+    user = 'lilqywqz'
+    password = 'x4MdoWQ0Js7Fm4Uu0nv6s_pdsxRsI9ac'
+    schemas = ['public']
+}
